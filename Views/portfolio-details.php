@@ -1,3 +1,8 @@
+<?php
+        include_once 'utilities.php';
+        include_once '../Controllers/habitacionController.php';
+    ?>
+
 <!DOCTYPE html>
 <html lang="en">
 

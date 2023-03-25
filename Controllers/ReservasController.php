@@ -1,68 +1,146 @@
-<?php
 
-require_once '../Models/Reserva.php';
+<?php 
+include_once '../Models/reservaModel.php';
 
-class ReservasController {
-  
-  public function crear($datos) {
-    $reserva = new Reserva($datos['nombre'],
-     $datos['apellidos'], 
-     $datos['fecha_llegada'], 
-     $datos['fecha_salida'],
-      $datos['num_personas'],
-       $datos['num_habitaciones'], 
-       $datos['tipo_habitacion'], 
-       $datos['comentarios']);
 
-    if ($reserva->crearReserva()) {
-      return true;
-    } else {
-      return false;
+
+if(isset($_POST["btnGuardarRes"])){
+
+$fehcaIng = $_POST["fehcaIng"];
+$fehcaSa = $_POST["fehcaSa"];
+$numPer = $_POST["numPer"];
+$numHabitacion = $_POST["numHabitacion"];
+$tipoRes = $_POST["tipoRes"];
+$cliente = $_SESSION["id"];
+
+
+addReserva($fehcaIng , $fehcaSa , $numPer , $numHabitacion , $tipoRes , $cliente);
+};
+
+function addReserva($fehcaIng , $fehcaSa , $numPer , $numHabitacion , $tipoRes , $cliente){
+
+    $resultado = addReservaModel($fehcaIng, date("Y/m/d")  , $fehcaSa ,$cliente , 1 , $numHabitacion, $numPer ,$tipoRes );
+
+    if($resultado == true)
+    {
+        header("location: ../Views/main.php");
     }
-  }
-
-  public function listar() {
-    $reserva = new Reserva();
-
-    return $reserva->listarReservas();
-  }
-
-  public function mostrarActualizar($id) {
-    $reserva = new Reserva();
-
-    $datos_reserva = $reserva->obtenerReserva($id);
-
-    include_once '../Views/actualizar_reserva.php';
-  }
-
-  public function actualizar($id, $datos) {
-    $reserva = new Reserva();
-
-    if ($reserva->actualizarReserva($id, $datos['nombre'], $datos['apellidos'], $datos['fecha_llegada'], $datos['fecha_salida'], $datos['num_personas'], $datos['num_habitaciones'], $datos['tipo_habitacion'], $datos['comentarios'])) {
-      return true;
-    } else {
-      return false;
+    else
+    {
+        echo "No se pudo guardar la habitacion";
     }
-  }
 
-  public function confirmarEliminar($id) {
-    $reserva = new Reserva();
+}
 
-    $datos_reserva = $reserva->obtenerReserva($id);
+function MostrarReservas(){
 
-    include_once '../Views/confirmar_eliminar.php';
-  }
+    $result = MostrarReservasModel();
 
-  public function eliminar($id) {
-    $reserva = new Reserva();
+if($result -> num_rows > 0){
 
-    if ($reserva->eliminarReserva($id)) {
-      return true;
-    } else {
-      return false;
+    //We put the data from the DB request into an variable in form of an array
+    //$resultData = mysqli_fetch_array($result);
+
+    While($resultData = mysqli_fetch_array($result)){
+        echo "<tr>";
+        echo "<td>" .  $resultData["idReserva"]. "</td>";
+        echo "<td>" . $resultData["fecha_ingreso"] . "</td>";
+        echo "<td>" . $resultData["fecha_reserva"] . "</td>";
+        echo "<td>" .  $resultData["fecha_salida"]. "</td>";
+        echo "<td>" .  $resultData["idCliente"]. "</td>";
+        echo "<td>" .  $resultData["idEmpleado"]. "</td>";
+        echo "<td>" .  $resultData["idHabitacion"]. "</td>";
+        echo "<td>" .  $resultData["numeroPersonas"]. "</td>";
+        echo "<td>" .  $resultData["tipoReserva"]. "</td>";
+        echo "</tr>";
+
     }
+}else{
+    echo "no se encontro informacion";
+}
+}
+
+
+function tiposReservas(){
+
+    $result = tiposReservaModel();
+
+    if($result -> num_rows > 0){
+
+        
+        While($resultData = mysqli_fetch_array($result))
+        {
+
+            echo "<option value=" . $resultData["idTipoReserva"] . " selected>" . $resultData["descripcion"] . "</option>";
+        }
+    }
+
+}
+
+
+function listaHabitaciones(){
+
+    $result = verHabitaciones();
+
+    if($result -> num_rows > 0){
+
+        
+        While($resultData = mysqli_fetch_array($result))
+        {
+
+            echo "<option value=" . $resultData["idHabitacion"] . " selected>" . $resultData["numeroHabitacion"] . "</option>";
+        }
+    }
+
+}
+
+function mostrarEmpleados(){
+
+  $result = showEmpleados();
+
+  if($result -> num_rows > 0){
+
+      
+      While($resultData = mysqli_fetch_array($result))
+      {
+
+          echo "<option value=" . $resultData["idEmpleado"] . " selected>" . $resultData["puesto"] . "</option>";
+      }
   }
 
 }
+
+function enviarFactura($destinatario, $file)
+{
+    require '../PHPMailer/src/PHPMailer.php';
+    require '../PHPMailer/src/SMTP.php';
+
+    $correoSalida = "@hotmail.com";
+    $contrasennaSalida = "......";
+
+    $mail = new PHPMailer();
+    $mail -> CharSet = 'UTF-8';
+
+    $mail -> IsSMTP();
+    $mail -> Host = 'smtp.office365.com'; // smtp.gmail.com     
+    $mail -> SMTPSecure = 'tls';
+    $mail -> Port = 587; // 465 // 25                               
+    $mail -> SMTPAuth = true;
+    $mail -> Username = $correoSalida;               
+    $mail -> Password = $contrasennaSalida;                                
+    
+    $mail -> SetFrom($correoSalida, "Sistema Profesores");
+    $mail -> Subject = $asunto;
+    $mail -> MsgHTML($cuerpo);   
+    $mail -> AddAddress($destinatario, 'Usuario Sistema');
+
+    $mail -> send();
+}
+
+
+
+
+
+
 
 ?>

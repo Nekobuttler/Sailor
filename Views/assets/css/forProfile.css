@@ -1,0 +1,25 @@
+body {
+    background-color: #f8f9fa;
+  }
+  
+  .container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+  }
+  
+  .profile {
+    max-width: 500px;
+    width: 100%;
+  }
+  
+  .delete {
+    text-align: center;
+  }
+  
+  @media (max-width: 576px) {
+    .profile {
+      margin-top: 20px;
+    }
+  }

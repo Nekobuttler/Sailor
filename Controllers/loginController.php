@@ -19,6 +19,7 @@ if(isset($_POST["btnIniciarSesion"]))
         $_SESSION["email"] = $datosResultado["email"];
         $_SESSION["Nombre"] = $datosResultado["Nombre"];
         $_SESSION["Apellidos"] = $datosResultado["Apellidos"];
+        $_SESSION["id"] = $datosResultado["id_cliente"];
 
         header("location: ../Views/main.php");
     }

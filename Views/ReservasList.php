@@ -1,6 +1,6 @@
 <?php
         include_once 'utilities.php';
-        include_once '../Controllers/ClienteController.php';
+        include_once '../Controllers/ReservasController.php';
     ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -38,6 +38,7 @@
 </head>
 
 <body>
+   
 
     <?php 
     display_header();
@@ -66,21 +67,20 @@
                             <table class="table table-hover">
                                 <thead>
                                     <tr>
-                                        <th>id Cliente</th>
-                                        <th>id Nombre</th>
-                                        <th>Apellido </th>
-                                        <th>email  </th>
-                                        <th>Tipo Documento</th>
-                                        <th>Numero Documento </th>
-                                        <th>Telefono</th>
-                                        <th>Direccion</th>
-                                        <th>tipo Usuario</th>
-                                        <th>Fecha Nacimiento</th>
+                                        <th>id Reserva</th>
+                                        <th>Fehca Ingreso </th>
+                                        <th>Fecha Reserva </th>
+                                        <th>Fecha Salida</th>
+                                        <th>ID CLIENTE</th>
+                                        <th>idEmpleado</th>
+                                        <th>idHabitacion</th>
+                                        <th>numeroPersonas</th>
+                                        <th>Tipo de reserva</th>
                                     </tr>
                                 </thead>
                                 <tbody>
                                     <?php
-                                   mostrarClientes($_SESSION["id"]);
+                                   MostrarReservas();
                                 ?>
                                 </tbody>
                             </table>

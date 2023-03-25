@@ -10,7 +10,7 @@ function display_profile(){
 
   if($_SESSION["email"] != null){
 
-    $name =  $_SESSION["Nombre"] . " " . $_SESSION["Apellidos"];
+    $name =  $_SESSION["Nombre"] . " " . $_SESSION["Apellidos"] . " ".$_SESSION["id"] ;
    
     return $name;
     
@@ -23,7 +23,7 @@ function display_profile(){
 function display_header(){
     echo '
     <!-- ======= Header ======= -->
-    <header id="header" class="fixed-top d-flex align-items-center">
+    <header id="header" class="fixed-top d-flex align-items-center ">
       <div class="container d-flex align-items-center">
   
         <h1 class="logo me-auto"><a href="index.html">Sailor</a></h1>
@@ -33,14 +33,14 @@ function display_header(){
       
         <nav id="navbar" class="navbar">
           <ul>
-            <li><a href="index.html" class="active">Home</a></li>
+            <li><a href="main.php" class="active">Home</a></li>
   
             
             <li class="dropdown"><a href="#"><span>About</span> <i class="bi bi-chevron-down"></i></a>
               <ul>
-                <li><a href="about.html">About</a></li>
-                <li><a href="team.html">Team</a></li>
-                <li><a href="testimonials.html">Testimonials</a></li>
+                <li><a href="about.php">About</a></li>
+                <li><a href="team.php">Team</a></li>
+                <li><a href="testimonials.php">Testimonials</a></li>
   
                 <li class="dropdown"><a href="#"><span>Deep Drop Down</span> <i class="bi bi-chevron-right"></i></a>
                   <ul>
@@ -54,14 +54,17 @@ function display_header(){
                 </li>
               </ul>
             </li>
-            <li><a href="testimonials.html">'. display_profile() .' </a></li>
-            <li><a href="services.html">Services</a></li>
-            <li><a href="portfolio.html">Portfolio</a></li>
-            <li><a href="pricing.html">Pricing</a></li>
-            <li><a href="blog.html">Blog</a></li>
+            <li><a href="profile2.php?q='.$_SESSION["id"] . '">' . display_profile() .' </a></li>
+            <li><a href="testimonials.php">Testimonials </a></li>
+            <li><a href="services.php">Services</a></li>
+            <li><a href="mostrarUsuarios.php">Usuarios</a></li>
+            <li><a href="pricing.php">Pricing</a></li>
+            <li><a href="ReservasList.php">Reservas</a></li>
             
-            <li><a href="contact.html">Contact</a></li>
-            <li><a href="login.php" class="getstarted">Get Started</a></li>
+            
+            <li><a href="contact.php">Contact</a></li>
+            <li><a href="login.php" class="getstarted">Iniciar Sesion</a></li>
+            <li><a href="../Controllers/cerrarSesionController.php" class="getstarted">Cerrar Sesion </a></li>
           </ul>
           <i class="bi bi-list mobile-nav-toggle"></i>
         </nav><!-- .navbar -->
